@@ -1,0 +1,17 @@
+{
+  "name": "whisk-demo",
+  "author": "Kirill Egorov",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "codeceptjs run --steps",
+    "test-m": "codeceptjs run-multiple basic:chrome smoke:firefox"
+  },
+  "dependencies": {
+    "codeceptjs": "^2.5.0",
+    "codeceptjs-assert": "0.0.4",
+    "node-fetch": "^2.6.0",
+    "puppeteer": "^2.1.1",
+    "puppeteer-firefox": "^0.5.1"
+  }
+}
