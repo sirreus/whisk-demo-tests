@@ -35,7 +35,12 @@ module.exports = {
     addCollectionButton: '//div[@data-testid="add-collection-button"]',
     newCollectionInput: '//div[@data-testid="new-collection-input"]//input',
     createCollectionButton:
-      '//button[@data-testid="new-collection-add-button"]//div[text()="Create"]'
+      '//button[@data-testid="new-collection-add-button"]//div[text()="Create"]',
+    collectionDotMenuButton:
+      '//button[@data-testid="collection-page-horizontal-dot-menu"]',
+    deleteCollectionButton:
+      '//button[@data-testid="collection-page-delete-menu-button"][text()="Delete"]',
+    deleteConfirmButton: '//button[@data-testid="confirm-delete-button"]'
   },
 
   async setEmail(email) {
@@ -95,18 +100,39 @@ module.exports = {
   },
 
   async addRecipeCollection() {
-    const newCoolectionID = await I.getRandomInt(1, 1000);
-    const newCoolectionName = `My awesome collection #${newCoolectionID}`;
-    I.seeTextEquals("Add Collection", "button>div");
+    const newCollectionID = await I.getRandomInt(1, 1000);
+    const newCollectionName = `My awesome collection #${newCollectionID}`;
+    I.seeTextEquals("Add Collection", this.recipesTab.addCollectionButton);
     I.click(this.recipesTab.addCollectionButton);
     I.waitForText("Create collection", 5, "h2");
     I.seeElement(this.recipesTab.newCollectionInput);
-    I.fillField(this.recipesTab.newCollectionInput, newCoolectionName);
+    I.fillField(this.recipesTab.newCollectionInput, newCollectionName);
     I.click(this.recipesTab.createCollectionButton);
     I.waitForElement(
-      `//div[@data-testid="collection-name"][text()="${newCoolectionName}"]`
+      `//div[@data-testid="collection-name"][text()="${newCollectionName}"]`
     );
-    return newCoolectionName;
+    return newCollectionName;
+  },
+
+  async deleteCollection(collectionName) {
+    I.waitForVisible(
+      `//div[@data-testid="collection-name"][text()="${collectionName}"]`,
+      5
+    );
+    I.click(
+      `//div[@data-testid="collection-name"][text()="${collectionName}"]`
+    );
+    I.waitForVisible(`//h2[text()="${collectionName}"]`, 5);
+    I.waitForVisible(this.recipesTab.collectionDotMenuButton, 5);
+    I.click(this.recipesTab.collectionDotMenuButton);
+    I.waitForVisible(this.recipesTab.deleteCollectionButton, 5);
+    I.click(this.recipesTab.deleteCollectionButton);
+    I.waitForVisible(this.recipesTab.deleteConfirmButton, 5);
+    I.click(this.recipesTab.deleteConfirmButton);
+    I.waitForVisible(this.recipesTab.collectionsMenuButton, 5);
+    I.dontSeeElement(
+      `//div[@data-testid="collection-name"][text()="${collectionName}"]`
+    );
   },
 
   async findProduct(product) {

@@ -64,9 +64,10 @@ Scenario("Add item to shoping list", async (I, mainPage) => {
   I.assert(Number(actualItemsCount), Number(startItemsCount));
 });
 
-Scenario("Create recipes collection", async (I, mainPage) => {
+Scenario.only("Create recipes collection", async (I, mainPage) => {
   await mainPage.openRecipesTab();
   await mainPage.recipesTabShouldBePresent();
   I.click(mainPage.recipesTab.collectionsMenuButton);
-  await mainPage.addRecipeCollection();
+  const collectionName = await mainPage.addRecipeCollection();
+  await mainPage.deleteCollection(collectionName);
 });
