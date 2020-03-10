@@ -67,7 +67,7 @@ module.exports = {
 
   async currentUserShouldBePresent(email) {
     I.waitForVisible(this.navPanel.accountPanel.container, 5);
-    I.seeElement(this.navPanel.accountPanel.avaterButton);
+    I.waitForVisible(this.navPanel.accountPanel.avaterButton, 5);
     I.waitForText(email, 5, this.navPanel.accountPanel.emailPreview);
   },
 

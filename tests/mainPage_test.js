@@ -13,25 +13,6 @@ Before(async (I, mainPage) => {
   await mainPage.navPanelShouldBePresent();
 });
 
-/**
- * данный тест к сожалению не удалось реализовать
- * т.к. при попытке дернуть ручку авторизации
- * с корректными данными логин/пароль в ответ мне приходит
- * 401 статус код...
- * я проверил сам запрос через DevTools который отправляется,
- * если "авторизовываться руками" нашел только в хедерсас
- * Authorization, но при подстановки в запрос успеха не добился
- * скорей всего длинный хэш который в этом заголовке еще как-то
- * хитро генериться и он уникальный для каждой сессии.
- */
-xScenario("Login by user access token", async (I, API, mainPage) => {
-  const token = await API.getAccessToken();
-  await mainPage.setAccessCookies(token);
-  I.amOnPage("/");
-  await mainPage.navPanelShouldBePresent();
-  await mainPage.currentUserShouldBePresent("keg.tezt@gmail.com");
-});
-
 Scenario("User login and logout must be correct", async mainPage => {
   await mainPage.currentUserShouldBePresent("keg.tezt@gmail.com");
   await mainPage.logout();
