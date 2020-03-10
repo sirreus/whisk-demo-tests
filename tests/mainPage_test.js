@@ -6,9 +6,9 @@ Before(async (I, mainPage) => {
 
   I.amOnPage("/");
   I.clearCookie();
-  I.seeElement(mainPage.authPopup.title);
+  I.waitForVisible(mainPage.authPopup.title, 3);
   await mainPage.setEmail(email);
-  I.seeElement(mainPage.authPopup.passwordTitle);
+  I.waitForVisible(mainPage.authPopup.passwordTitle, 3);
   await mainPage.setPassword(password);
   await mainPage.navPanelShouldBePresent();
 });
@@ -64,7 +64,7 @@ Scenario("Add item to shoping list", async (I, mainPage) => {
   I.assert(Number(actualItemsCount), Number(startItemsCount));
 });
 
-Scenario.only("Create recipes collection", async (I, mainPage) => {
+Scenario("Create recipes collection", async (I, mainPage) => {
   await mainPage.openRecipesTab();
   await mainPage.recipesTabShouldBePresent();
   I.click(mainPage.recipesTab.collectionsMenuButton);

@@ -12,6 +12,9 @@ exports.config = {
       // browser: process.env.BROWSER || "firefox",
       // url: process.env.BASE_URL || "https://dev.whisk.com",
       url: "https://dev.whisk.com",
+      windowSize: "1024x780",
+      waitForNavigation: ["domcontentloaded", "networkidle0"],
+      waitForAction: 500,
       show: true
     },
     AssertWrapper: {
@@ -29,9 +32,6 @@ exports.config = {
   plugins: {
     autoDelay: {
       delayBefore: 300,
-      enabled: true
-    },
-    retryFailedStep: {
       enabled: true
     },
     screenshotOnFail: {
@@ -52,11 +52,11 @@ exports.config = {
   //     browsers: [
   //       {
   //         browser: "chrome",
-  //         windowSize: "1920x1080"
+  //         windowSize: "1024x780"
   //       },
   //       {
   //         browser: "firefox",
-  //         windowSize: "1920x1080"
+  //         windowSize: "1024x780"
   //       }
   //     ]
   //   }

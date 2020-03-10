@@ -3,7 +3,7 @@ const { I } = inject();
 module.exports = {
   title: "Whisk - Shopping List",
   authPopup: {
-    container: '//div[contains(@class, "modal-mobile-popup")]',
+    container: '//div[@data-testid="authentication-modal"]',
     title: '//h2[text()="Sign up to save your list and recipes!"]',
     emailInput: '//div[@data-testid="email-phone-number-auth-input"]/div/input',
     passwordTitle: '//h2[text()="Enter your password"]',
@@ -18,7 +18,7 @@ module.exports = {
       container: '//div[@id="app"]//nav[1]',
       shopingListButton: '//div[@data-testid="shopping-list-nav-link"]',
       recipesButton: {
-        container: '//div[@data-testid="recipes-nav-link"]',
+        container: '//div[@data-testid="recipes-nav-link"]/a',
         link: '//a[text()="Recipes"]'
       }
     },
@@ -32,7 +32,7 @@ module.exports = {
   recipesTab: {
     recipesMenuButton: '//div[@data-testid="recipes-tab-menu"]',
     collectionsMenuButton: '//div[@data-testid="collections-tab-menu"]',
-    addCollectionButton: '//div[@data-testid="add-collection-button"]',
+    addCollectionButton: '//button[@data-testid="add-collection-button"]',
     newCollectionInput: '//div[@data-testid="new-collection-input"]//input',
     createCollectionButton:
       '//button[@data-testid="new-collection-add-button"]//div[text()="Create"]',
@@ -83,14 +83,16 @@ module.exports = {
   },
 
   async openRecipesTab() {
-    I.seeElement(this.navPanel.tabPanel.recipesButton.link);
+    I.waitForVisible(this.navPanel.tabPanel.recipesButton.link, 5);
     I.seeAttributesOnElements(this.navPanel.tabPanel.recipesButton.link, {
       href: "https://dev.whisk.com/recipes"
     });
-    const recipesLink = await I.grabAttributeFrom(
-      this.navPanel.tabPanel.recipesButton.link,
-      "href"
-    );
+    const recipesLink = (
+      await I.grabAttributeFrom(
+        this.navPanel.tabPanel.recipesButton.link,
+        "href"
+      )
+    ).split(".com")[1];
     I.amOnPage(recipesLink);
   },
 
@@ -102,9 +104,9 @@ module.exports = {
   async addRecipeCollection() {
     const newCollectionID = await I.getRandomInt(1, 1000);
     const newCollectionName = `My awesome collection #${newCollectionID}`;
-    I.seeTextEquals("Add Collection", this.recipesTab.addCollectionButton);
+    I.seeTextEquals("Add collection", this.recipesTab.addCollectionButton);
     I.click(this.recipesTab.addCollectionButton);
-    I.waitForText("Create collection", 5, "h2");
+    I.waitForVisible('//h2[text()="Create collection"]', 5);
     I.seeElement(this.recipesTab.newCollectionInput);
     I.fillField(this.recipesTab.newCollectionInput, newCollectionName);
     I.click(this.recipesTab.createCollectionButton);
