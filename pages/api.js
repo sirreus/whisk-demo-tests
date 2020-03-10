@@ -66,10 +66,11 @@ module.exports = {
   },
 
   async addItemToShoppingList(listId, token) {
+    const newItem = "Bread";
     const bodyData = {
       items: [
         {
-          name: "Bread",
+          name: newItem,
           isNew: true,
           addToRecent: true,
           localId: "operation_aa40edec-ad0e-434c-a78d-0fd6b9e73a6a"
@@ -90,15 +91,18 @@ module.exports = {
     );
     I.assert(resp.status, 200);
     let data = await resp.json();
-    I.assertOk(data.items);
-    return data.items;
+    I.assertOk(data.items[0]);
+    let item = data.items[0];
+    I.assertOk(item.id);
+    I.assert(item.name, newItem);
+    return item;
   },
 
-  async deleteItemFromShoppingList(listId, newItems, token) {
+  async deleteItemFromShoppingList(listId, newItem, token) {
     const bodyData = {
       items: [
         {
-          id: newItems.id,
+          id: newItem.id,
           deleted: true
         }
       ]
@@ -118,7 +122,7 @@ module.exports = {
     I.assert(resp.status, 200);
     let data = await resp.json();
     let item = data.items[0];
-    I.assert(item.id, newItems.id);
+    I.assert(item.id, newItem.id);
     I.assert(item.deleted, true);
   }
 };
