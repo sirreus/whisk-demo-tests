@@ -21,11 +21,11 @@ Scenario("User login and logout must be correct", async mainPage => {
 Scenario("Add item to shoping list", async (I, mainPage) => {
   const product = "Milk";
 
-  I.wait(3); // <-- необходимый костыль для подгрузки кол-во айтемов в списке
+  I.wait(3); // <-- узкое место, ожидание подгрузки актуального кол-во айтемов в списке
   I.waitForVisible('//div[contains(text(), " item")]', 5);
   const startItemsCount = (
     await I.grabTextFrom('//div[contains(text(), " item")]')
-  ).split(" ")[0]; // <-- узкое место, т.к. из-за скорости обработки запроса иногда забираю отсюда 0
+  ).split(" ")[0];
 
   await mainPage.findProduct(product);
   const selectedProductName = await mainPage.selectRandomProductFromSudggestList(
@@ -35,7 +35,7 @@ Scenario("Add item to shoping list", async (I, mainPage) => {
   const currentItemsCount = (
     await I.grabTextFrom('//div[contains(text(), " item")]')
   ).split(" ")[0];
-  I.assert(Number(currentItemsCount), Number(startItemsCount) + 1); // <-- и тут падает потому что иногда startItemsCount = 0, см.стр.52
+  I.assert(Number(currentItemsCount), Number(startItemsCount) + 1);
 
   await mainPage.deleteProductFromShopingList(selectedProductName);
 
