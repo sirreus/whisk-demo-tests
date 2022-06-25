@@ -10,7 +10,7 @@
   "dependencies": {
     "codeceptjs": "^2.5.0",
     "codeceptjs-assert": "0.0.4",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "puppeteer": "^2.1.1",
     "puppeteer-firefox": "^0.5.1"
   }
