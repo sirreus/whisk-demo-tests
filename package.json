@@ -8,7 +8,7 @@
     "test-m": "codeceptjs run-multiple basic:chrome smoke:firefox"
   },
   "dependencies": {
-    "codeceptjs": "^2.5.0",
+    "codeceptjs": "^3.0.0",
     "codeceptjs-assert": "0.0.4",
     "node-fetch": "^2.6.0",
     "puppeteer": "^2.1.1",
